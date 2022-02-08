@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package dongtai.v1;
+
+option java_multiple_files = true;
+option java_package = "io.dongtai.iast.network.language.agent.v1";
+option csharp_namespace = "DongTai.NetworkProtocol.V1";
+option go_package = "io.dongtai.iast/repo/goapi/collect/language/agent/v3";
+
+import "common/Common.proto";
+
+// Collect performance raw data from browser.
+service ReportService {
+
+  // report once per page
+  rpc uploadReport (ReportData) returns (Commands) {
+  }
+
+  // report one or more error logs for pages, could report multiple times.
+  rpc uploadStreamReport (stream ReportData) returns (Commands) {
+  }
+}
+
+enum ReportType {
+  Normal = 0;
+  Error = 1;
+  HEART_BEART = 2;
+  ERROR_LOG = 3;
+  SCA_DATA = 4;
+  METHOD_POOL_DATA = 5;
+  APPLICATION_API_DATA = 6;
+}
+
+message ReportData {
+  ReportType reportType = 1;
+  repeated dongtai.v1.KeyStringValuePair detail = 2;
+}
