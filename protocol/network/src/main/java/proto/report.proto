@@ -13,11 +13,11 @@ import "common/Common.proto";
 service ReportService {
 
   // report once per page
-  rpc uploadReport (ReportData) returns (Commands) {
+  rpc uploadReport (ReportData) returns (Command) {
   }
 
   // report one or more error logs for pages, could report multiple times.
-  rpc uploadStreamReport (stream ReportData) returns (Commands) {
+  rpc uploadStreamReport (stream ReportData) returns (Command) {
   }
 }
 

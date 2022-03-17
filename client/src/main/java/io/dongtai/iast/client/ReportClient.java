@@ -1,17 +1,18 @@
 package io.dongtai.iast.client;
 
+import io.dongtai.iast.client.interceptor.ClientTraceInterceptor;
 import io.dongtai.iast.network.common.v1.KeyStringValuePair;
 import io.dongtai.iast.network.language.agent.v1.ReportData;
 import io.dongtai.iast.network.language.agent.v1.ReportServiceGrpc;
 import io.dongtai.iast.network.language.agent.v1.ReportType;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import io.grpc.*;
 
 public class ReportClient {
     public static void main(String[] args) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9089).usePlaintext().build();
+        Channel channel = ManagedChannelBuilder.forAddress("localhost", 9089).usePlaintext().build();
+        channel = ClientInterceptors.intercept(channel, new ClientTraceInterceptor());
         ReportServiceGrpc.ReportServiceBlockingStub reportServiceStub = ReportServiceGrpc.newBlockingStub(channel);
-        reportServiceStub.uploadReport(mockReportData());
+        Object res = reportServiceStub.uploadReport(mockReportData());
         System.out.println("报告已上传");
     }
 
