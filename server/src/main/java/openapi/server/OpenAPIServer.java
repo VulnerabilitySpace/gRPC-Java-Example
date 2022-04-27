@@ -1,13 +1,12 @@
 //$Id$
 package openapi.server;
 
-import java.io.IOException;
-
-import io.grpc.ServerInterceptors;
-import openapi.interceptor.ServerTraceInterceptor;
-import openapi.report.ReportServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import openapi.report.CmdServiceImpl;
+import openapi.report.ReportServiceImpl;
+
+import java.io.IOException;
 
 public class OpenAPIServer {
 
@@ -15,8 +14,9 @@ public class OpenAPIServer {
         System.out.println("Starting DongTai OpenAPI server on port: 9089");
         Server server = ServerBuilder.forPort(9089).addService(
                 new ReportServiceImpl()
-                //ServerInterceptors.intercept(new ReportServiceImpl(), new ServerTraceInterceptor())
-        ).build(); // create a instance of server
+        ).addService(
+                new CmdServiceImpl()
+        ).build();
 
         server.start();
         server.awaitTermination();

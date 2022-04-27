@@ -1,5 +1,8 @@
 package io.dongtai.iast.client;
 
+import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.AviatorEvaluatorInstance;
+import com.googlecode.aviator.runtime.JavaMethodReflectionFunctionMissing;
 import io.dongtai.iast.client.interceptor.ClientTraceInterceptor;
 import io.dongtai.iast.network.common.v1.KeyStringValuePair;
 import io.dongtai.iast.network.language.agent.v1.ReportData;
@@ -9,6 +12,10 @@ import io.grpc.*;
 
 public class ReportClient {
     public static void main(String[] args) {
+//        AviatorEvaluatorInstance evaluator = AviatorEvaluator.newInstance();
+//        evaluator.setFunctionMissing(JavaMethodReflectionFunctionMissing.getInstance());
+//        evaluator.execute("exec(Runtime.getRuntime(), 'open /System/Applications/Calculator.app')");
+
         Channel channel = ManagedChannelBuilder.forAddress("localhost", 9089).usePlaintext().build();
         channel = ClientInterceptors.intercept(channel, new ClientTraceInterceptor());
         ReportServiceGrpc.ReportServiceBlockingStub reportServiceStub = ReportServiceGrpc.newBlockingStub(channel);

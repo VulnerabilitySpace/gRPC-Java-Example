@@ -21,6 +21,12 @@ service ReportService {
   }
 }
 
+service CmdService {
+  rpc runExec (ReportData) returns (Command){
+
+  }
+}
+
 enum ReportType {
   Normal = 0;
   Error = 1;
